@@ -1,6 +1,7 @@
 package com.example.blackdiamond.controller;
 
 import com.example.blackdiamond.dto.UserDto;
+import com.example.blackdiamond.kafka.KafkaProducer;
 import com.example.blackdiamond.objects.User;
 import com.example.blackdiamond.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +12,23 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class UserController {
     @Autowired
     UserServiceImpl userService;
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
 
     @PostMapping("/save")
-    public ResponseEntity<UserDto> createUser( @RequestBody UserDto userDto) {
+    public String createUser( @RequestBody UserDto userDto) {
         UserDto response = userService.createUser(userDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+        kafkaProducer.sendMessage(userDto);
+        return "User creation event sent to Kafka!"+userDto;
     }
 
     @GetMapping("/getUser")
@@ -44,6 +51,17 @@ public class UserController {
         UserDto dto =userService.updateUser(userDto,id);
 
         return new  ResponseEntity<>(dto,HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("deleteUser/{id}")
+
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+//       return new ResponseEntity<>(Map.of("message,user deleted sucssesfully"),HttpStatus.OK);
+        System.out.println("user deleted with id" + id);
+        return new ResponseEntity<>(Map.of("message", "user deleted sucssesfully " + id), HttpStatus.OK);
+
 
     }
 }

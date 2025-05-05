@@ -1,20 +1,23 @@
 package com.example.blackdiamond.dto;
 
 import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class UserDto {
-
-    public int id;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer id;
     @Column(name = "user_name")
 
     public String userName;
     @Column(name = "email")
     public String email;
+    @Column(name = "password")
+
     public String password;
 }

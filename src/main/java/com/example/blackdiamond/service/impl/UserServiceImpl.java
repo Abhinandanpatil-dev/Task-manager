@@ -5,13 +5,14 @@ import com.example.blackdiamond.mapper.UserMapper;
 import com.example.blackdiamond.objects.User;
 import com.example.blackdiamond.repository.UserRepository;
 import com.example.blackdiamond.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
@@ -51,13 +52,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto, int id) {
 
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         user.setUserName(userDto.getUserName());
-        user.setEmail(user.getEmail());
-        user.setPassword(user.getPassword());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
         User useruser = userRepository.save(user);
 
-        UserDto userDto1=userMapper.userToUserDTO(user);
+        UserDto userDto1=userMapper.userToUserDTO(useruser);
         return userDto1;
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        User user=userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+         userRepository.delete(user);
     }
 }

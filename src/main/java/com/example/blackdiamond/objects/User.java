@@ -9,16 +9,15 @@ import lombok.Setter;
 
 @Entity
 @Data
-@Getter
-@Setter
 @Table(name = "user_admin")
 public class User {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "user_id")
-   public int id;
+   public Integer id;
+
+
 
     @Column(name = "user_name")
     public String userName;
