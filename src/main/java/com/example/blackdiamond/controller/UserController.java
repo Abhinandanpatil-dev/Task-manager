@@ -2,15 +2,13 @@ package com.example.blackdiamond.controller;
 
 import com.example.blackdiamond.dto.UserDto;
 import com.example.blackdiamond.kafka.KafkaProducer;
-import com.example.blackdiamond.objects.User;
 import com.example.blackdiamond.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +21,24 @@ public class UserController {
     private KafkaProducer kafkaProducer;
 
 
+//    @PostMapping("/save")
+//    public String createUser( @RequestBody UserDto userDto) {
+//        UserDto response = userService.createUser(userDto);
+////        return new ResponseEntity<>(response, HttpStatus.OK);
+//        kafkaProducer.sendMessage(userDto);
+//        return "User creation event sent to Kafka!"+userDto;
+//    }
+
     @PostMapping("/save")
-    public String createUser( @RequestBody UserDto userDto) {
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserDto userDto) {
         UserDto response = userService.createUser(userDto);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
         kafkaProducer.sendMessage(userDto);
-        return "User creation event sent to Kafka!"+userDto;
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("message", "User creation event sent to Kafka!");
+        responseBody.put("user", response);
+
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
     @GetMapping("/getUser")

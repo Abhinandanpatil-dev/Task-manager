@@ -1,7 +1,7 @@
 package com.example.blackdiamond.mapper;
 
 import com.example.blackdiamond.dto.UserDto;
-import com.example.blackdiamond.objects.User;
+import com.example.blackdiamond.entities.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

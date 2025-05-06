@@ -1,6 +1,6 @@
 package com.example.blackdiamond.kafka;
 
-import com.example.blackdiamond.objects.User;
+import com.example.blackdiamond.entities.User;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

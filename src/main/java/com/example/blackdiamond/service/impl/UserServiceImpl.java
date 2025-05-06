@@ -2,7 +2,7 @@ package com.example.blackdiamond.service.impl;
 
 import com.example.blackdiamond.dto.UserDto;
 import com.example.blackdiamond.mapper.UserMapper;
-import com.example.blackdiamond.objects.User;
+import com.example.blackdiamond.entities.User;
 import com.example.blackdiamond.repository.UserRepository;
 import com.example.blackdiamond.service.UserService;
 import jakarta.transaction.Transactional;

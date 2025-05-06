@@ -1,5 +1,5 @@
 package com.example.blackdiamond.configuration;
-import com.example.blackdiamond.objects.User;
+import com.example.blackdiamond.entities.User;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

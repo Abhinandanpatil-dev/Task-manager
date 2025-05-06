@@ -1,7 +1,6 @@
 package com.example.blackdiamond.service;
 
 import com.example.blackdiamond.dto.UserDto;
-import com.example.blackdiamond.objects.User;
 
 import java.util.List;
 

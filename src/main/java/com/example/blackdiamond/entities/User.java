@@ -1,10 +1,7 @@
-package com.example.blackdiamond.objects;
+package com.example.blackdiamond.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 
 
 @Entity

@@ -2,7 +2,7 @@ package com.example.blackdiamond.kafka;
 
 import com.example.blackdiamond.dto.UserDto;
 import com.example.blackdiamond.mapper.UserMapper;
-import com.example.blackdiamond.objects.User;
+import com.example.blackdiamond.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
