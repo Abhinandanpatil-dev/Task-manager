@@ -1,6 +1,7 @@
 package com.example.blackdiamond.service.impl;
 
 import com.example.blackdiamond.dto.UserDto;
+import com.example.blackdiamond.exception.UserNotFoundException;
 import com.example.blackdiamond.mapper.UserMapper;
 import com.example.blackdiamond.entities.User;
 import com.example.blackdiamond.repository.UserRepository;
@@ -43,16 +44,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(int id) {
-        User user =userRepository.findById(id).orElseThrow();
+        User user =userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("user not found with ",id));
        UserDto userDto =userMapper.userToUserDTO(user);
-
         return userDto;
     }
 
     @Override
     public UserDto updateUser(UserDto userDto, int id) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("id",id));
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        User user=userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user=userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found",id));
          userRepository.delete(user);
     }
 }
