@@ -3,6 +3,7 @@ package com.example.blackdiamond.controller;
 import com.example.blackdiamond.dto.UserDto;
 import com.example.blackdiamond.kafka.KafkaProducer;
 import com.example.blackdiamond.service.impl.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class UserController {
 //    }
 
     @PostMapping("/save")
-    public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Map<String, Object>> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto response = userService.createUser(userDto);
         kafkaProducer.sendMessage(userDto);
 
@@ -43,24 +44,24 @@ public class UserController {
 
     @GetMapping("/getUser")
 
-    public ResponseEntity<List<UserDto>> getUser(UserDto user){
-        List<UserDto>  user1= userService.getAllUsers();
-        return new ResponseEntity<>(user1,HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getUser(UserDto user) {
+        List<UserDto> user1 = userService.getAllUsers();
+        return new ResponseEntity<>(user1, HttpStatus.OK);
     }
 
     @GetMapping("/getUserById/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable int id){
-        System.out.println("=========================="+id);
-        UserDto userDto =userService.getUserById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable int id) {
+        System.out.println("==========================" + id);
+        UserDto userDto = userService.getUserById(id);
         return ResponseEntity.ok(userDto);
     }
 
     @PutMapping("updateUser/{id}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable int id){
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable int id) {
 
-        UserDto dto =userService.updateUser(userDto,id);
+        UserDto dto = userService.updateUser(userDto, id);
 
-        return new  ResponseEntity<>(dto,HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
 
     }
 

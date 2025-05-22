@@ -1,13 +1,18 @@
 package com.example.blackdiamond.exception;
 
 
-public class UserNotFoundException extends RuntimeException{
+import lombok.extern.slf4j.Slf4j;
 
-    public UserNotFoundException(String message){
+@Slf4j
+
+public class UserNotFoundException extends RuntimeException {
+
+    public UserNotFoundException(String message) {
         super(message);
     }
 
-
-    public UserNotFoundException(String user,int id) {
-        super(  user + "  ID: " + id);    }
+    public UserNotFoundException(String user, int id) {
+        super(user + "  ID: " + id);
+        log.error("Missing user id :{}", id);
+    }
 }
